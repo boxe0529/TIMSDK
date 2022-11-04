@@ -29,6 +29,8 @@ import 'package:tim_ui_kit/ui/widgets/toast.dart';
 import 'package:video_thumbnail/video_thumbnail.dart' as video_thumbnail;
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
 import 'package:tim_ui_kit/base_widgets/tim_ui_kit_base.dart';
+import 'package:tim_ui_kit_calling_plugin/tim_ui_kit_calling_plugin.dart’;
+import 'package:tim_ui_kit_calling_plugin/enum/tim_uikit_trtc_calling_scence.dart’;
 
 import 'package:tim_ui_kit/ui/utils/shared_theme.dart';
 import 'package:universal_html/html.dart' as html;
@@ -156,43 +158,73 @@ class _MorePanelState extends TIMUIKitState<MorePanel> {
                 width: 64,
               ),
             )),
-      if (PlatformUtils().isWeb)
-        MorePanelItem(
-            id: "video",
-            title: TIM_t("视频"),
-            onTap: (c) {
-              _onFeatureTap("video", c, model);
-            },
-            icon: Container(
-              height: 64,
-              width: 64,
-              margin: const EdgeInsets.only(bottom: 4),
-              decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(5))),
-              child:
-                  Icon(Icons.video_file, color: hexToColor("5c6168"), size: 26),
-            )),
+//       if (PlatformUtils().isWeb)
+//         MorePanelItem(
+//             id: "video",
+//             title: TIM_t("视频"),
+//             onTap: (c) {
+//               _onFeatureTap("video", c, model);
+//             },
+//             icon: Container(
+//               height: 64,
+//               width: 64,
+//               margin: const EdgeInsets.only(bottom: 4),
+//               decoration: const BoxDecoration(
+//                   color: Colors.white,
+//                   borderRadius: BorderRadius.all(Radius.circular(5))),
+//               child:
+//                   Icon(Icons.video_file, color: hexToColor("5c6168"), size: 26),
+//             )),
+//       MorePanelItem(
+//           id: "file",
+//           title: TIM_t("文件"),
+//           onTap: (c) {
+//             _onFeatureTap("file", c, model);
+//           },
+//           icon: Container(
+//             height: 64,
+//             width: 64,
+//             margin: const EdgeInsets.only(bottom: 4),
+//             decoration: const BoxDecoration(
+//                 color: Colors.white,
+//                 borderRadius: BorderRadius.all(Radius.circular(5))),
+//             child: SvgPicture.asset(
+//               "images/file.svg",
+//               package: 'tim_ui_kit',
+//               height: 64,
+//               width: 64,
+//             ),
+//           )),
       MorePanelItem(
-          id: "file",
-          title: TIM_t("文件"),
-          onTap: (c) {
-            _onFeatureTap("file", c, model);
-          },
-          icon: Container(
-            height: 64,
-            width: 64,
-            margin: const EdgeInsets.only(bottom: 4),
-            decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(5))),
-            child: SvgPicture.asset(
-              "images/file.svg",
-              package: 'tim_ui_kit',
-              height: 64,
-              width: 64,
-            ),
-          )),
+    id: "audio",
+    title: TIM_t("语音"),
+    onTap: (c) {
+      _onFeatureTap("audio", c);
+    },
+    icon: Container(
+      height: 64,
+      width: 64,
+      margin: const EdgeInsets.only(bottom: 4),
+      decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(5))),
+      child: Image.asset("assets/home/callling.png", width: 64, height: 64),
+    )),
+MorePanelItem(
+    id: "video",
+    title: TIM_t("视频"),
+    onTap: (c) {
+      _onFeatureTap("video", c);
+    },
+    icon: Container(
+      height: 64,
+      width: 64,
+      margin: const EdgeInsets.only(bottom: 4),
+      decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(5))),
+      child: Image.asset("assets/home/videoing.png", width: 64, height: 64),
+    )),
       if (config.extraAction != null) ...?config.extraAction,
     ].where((element) {
       if (element.id == "screen") {
@@ -450,10 +482,18 @@ class _MorePanelState extends TIMUIKitState<MorePanel> {
         // only for web
         _sendImageFileOnWeb(model);
         break;
-      case "video":
-        // only for web
-        _sendVideoFileOnWeb(model);
-        break;
+//       case "video":
+//         // only for web
+//         _sendVideoFileOnWeb(model);
+//         break;
+      case "audio":
+  final TUICalling _calling = TUICalling();
+  _calling.call(widget.conversationID, CallingScenes.Audio);
+  break;
+case "video":
+  final TUICalling _calling = TUICalling();
+  _calling.call(widget.conversationID, CallingScenes.Video);
+  break;
     }
   }
 
